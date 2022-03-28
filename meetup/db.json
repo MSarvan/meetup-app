@@ -1,0 +1,14 @@
+{
+    "users": [
+        {
+          "name": "Samuel",
+          "password": "secret",
+          "location": "bangalore",
+          "technology": "on",
+          "image": "https://images.unsplash.com/photo",
+          "id": 1,
+          "movies": "on",
+          "drama": "on"
+        }
+    ]
+} 
