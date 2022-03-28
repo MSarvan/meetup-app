@@ -1,6 +1,9 @@
 import { useState } from "react";
 
 export const LoginSignUp = () => {
+
+  const dispatch = useDispatch();
+
   const [users, setUsers] = useState({
     name: "",
     password: "",
@@ -9,9 +12,7 @@ export const LoginSignUp = () => {
     image: "",
   });
 
-  console.log(users);
-
-  const handleChange = (e) => {
+  const handleChange = () => {
     setUsers({ ...users, [event.target.name]: event.target.value});
   };
 
@@ -20,19 +21,30 @@ export const LoginSignUp = () => {
     axios.post("http://localhost:8080/users", users);
   }
 
-  const onSignin = () => {
-    
+  const onSignin = (e) => {
+    e.preventDefault();
+    console.log(e.target.name);
+    console.log(e.target.password);
+    axios.get("http://localhost:8080/users").then((res) => {
+      let data =  res.data;
+      data.forEach((el) => {
+        if((el.name === e.target.name) && (el.password === e.target.password))
+        {
+          useDispatch(userLogin(data));
+        }
+      });
+    });
   }
 
   return (
     <div className="loginSignUp">
-      <form className="signUp" onSubmit={(e) => { }}>
+      <form className="signUp" onSubmit={(e) => { handleSubmit(e) }}>
         <h1>SignUp</h1>
         <label>name</label>
         <input
           type="text"
           className="name"
-          onChange={(event) => { handleChange(e) }}
+          onChange={(event) => { handleChange(event) }}
           required
         />
         <br />
@@ -40,11 +52,12 @@ export const LoginSignUp = () => {
         <input
           type="text"
           className="password"
-          onChange={(event) => { handleChange(e) }}
+          name="password"
+          onChange={(event) => { handleChange(event) }}
           required
         />
         <br />
-        <select value={""} className="location" onChange={(event) => { handleChange(e) }}>
+        <select value={""} className="location" name="location" onChange={(event) => { handleChange(event) }}>
           <option value=""></option>
           <option value="bangalore">Bangalore</option>
           <option value="kolkata">Kolkata</option>
@@ -57,41 +70,44 @@ export const LoginSignUp = () => {
         <input
           type="checkbox"
           className="technology"
-          onChange={(event) => { handleChange(e) }}
+          name="technology"
+          onChange={(event) => { handleChange(event) }}
         />
         <br />
         <label>food</label>
-        <input type="checkbox" className="food" onChange={(event) => { handleChange(e) }} />
+        <input type="checkbox" className="food" name="food" onChange={(event) => { handleChange(event) }} />
         <br />
         <label>movies</label>
-        <input type="checkbox" className="movies" onChange={(event) => { handleChange(e) }} />
+        <input type="checkbox" className="movies" name="movies" onChange={(event) => { handleChange(event) }} />
         <br />
         <label>culture</label>
-        <input type="checkbox" className="culture" onChange={(event) => { handleChange(e) }} />
+        <input type="checkbox" className="culture" name="culture" onChange={(event) => { handleChange(event) }} />
         <br />
         <label>art</label>
-        <input type="checkbox" className="art" onChange={(event) => { handleChange(e) }} />
+        <input type="checkbox" className="art" name="art" onChange={(event) => { handleChange(event) }} />
         <br />
         <label>drama</label>
-        <input type="checkbox" className="drama" onChange={(event) => { handleChange(e) }} />
+        <input type="checkbox" className="drama" name="drama" onChange={(event) => { handleChange(event) }} />
         <br />
         <label>image</label>
         <input
           type="text"
           className="image"
-          onChange={(event) => { handleChange(e) }}
+          name="image"
+          onChange={(event) => { handleChange(event) }}
           required
         />
         <br />
         <input type="submit" className="submitSignUpForm" />
       </form>
-      <form className="login" onSubmit={(e) => { handleChange(e) }}>
+      <form className="login" onSubmit={(e) => { onSignin(e) }}>
         <h1>Login</h1>
         <label>name</label>
         <input
           type="text"
           className="name"
-          onChange={(event) => { handleChange(e) }}
+          name="name"
+          onChange={(event) => {}}
           required
         />
         <br />
@@ -99,7 +115,8 @@ export const LoginSignUp = () => {
         <input
           type="text"
           className="password"
-          onChange={(event) => { handleChange(e) }}
+          name="password"
+          onChange={(event) => {}}
           required
         />
         <br />

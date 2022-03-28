@@ -7,7 +7,8 @@ import { Navbar } from "../Navbar/Navbar";
 import { NotFound } from "../NotFound/NotFound";
 
 export const Routers = () => {
-    return (<>
+    return (
+        <>
         <Navbar />
         <Routes>
             <Route path="/" element={<Home />} />
